@@ -1,0 +1,19 @@
+{
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-batch": "^1.0.5",
+    "gulp-clean-css": "latest",
+    "gulp-concat": "latest",
+    "gulp-connect": "latest",
+    "gulp-minify": "0.0.15",
+    "gulp-sass": "latest",
+    "gulp-sourcemaps": "latest",
+    "gulp-typescript": "latest",
+    "gulp-uglify": "latest",
+    "gulp-util": "latest",
+    "gulp-watch": "^4.3.11",
+    "npm-sass": "latest",
+    "reset-css": "^2.2.0",
+    "typescript": "latest"
+  }
+}

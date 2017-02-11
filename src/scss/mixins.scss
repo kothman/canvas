@@ -1,0 +1,22 @@
+@mixin box-shadow {
+	$top: 2px;
+	$left: 0px;
+	$blur: 15px;
+	$spread: -5px;
+	$color: black;
+    -webkit-box-shadow: $left $top $blur $spread $color;
+    -moz-box-shadow: $left $top $blur $spread $color;
+    box-shadow: $left $top $blur $spread $color;
+}
+
+@mixin flex {
+	display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+@mixin transition {
+	transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+}
