@@ -1,9 +1,9 @@
 class Toolbar {
 	toolbar: Element;
 	container: Container;
+	factory: Factory;
 	buttons: Array<Element>;
-	currentTool: HTMLElement;
-	currentToolIcon: HTMLElement;
+	currentTool: Tool;
 
 	pickUpToolListener: EventListenerOrEventListenerObject;
 	putDownToolListener: EventListenerOrEventListenerObject;
@@ -12,6 +12,7 @@ class Toolbar {
 	constructor(toolbar: string, container: Container) {
 		this.toolbar = document.querySelector(toolbar);
 		this.container = container;
+		this.factory = new Factory();
 		this.init();
 	}
 
@@ -54,17 +55,16 @@ class Toolbar {
 
 	private pickUpTool(e: MouseEvent): void {
 		console.log("Picking up");
+		let toolElement: HTMLElement = <HTMLElement> e.currentTarget;
 		// Set the current tool for use in other functions
-		this.currentTool = (<HTMLElement> e.currentTarget);
-		this.currentToolIcon = (<HTMLElement> e.currentTarget).querySelector("i");
-		// Add 'active' class to the tool icon so that it has fixed positioning
-		this.currentToolIcon.classList.add("active-icon");
+		this.currentTool = new (this.factory.class(toolElement.getAttribute("data-class")))(toolElement, this.container);
+		this.currentTool.float();
 		// Move the tool to initial mouse position
-		this.moveTool(e);
+		this.currentTool.moveTool(e);
 		// Remove event listeners on all the buttons so you can only pick up one at a time
 		this.removeEventListeners();
 		// Remove hover css from .btn element
-		this.disableButtonHover();
+		this.currentTool.disableButtonHover();
 		// Set the canvas to be active
 		this.setCanvasActive(true);
 
@@ -75,31 +75,23 @@ class Toolbar {
 
 	private putDownTool(e: MouseEvent): void {
 		console.log("Putting down");
-		this.currentToolIcon.classList.remove("active-icon");
-		this.currentTool = null;
-		this.currentToolIcon = null;
+		this.currentTool.drop();
+		this.currentTool.enableButtonHover();
 		document.body.removeEventListener("mousemove", this.moveToolListener);
 		e.currentTarget.removeEventListener("click", this.putDownToolListener);
 		this.setCanvasActive(false);
 		this.addEventListeners();
-	}
 
-	private moveTool(e: MouseEvent): void {
-		this.currentToolIcon.style.left = e.clientX + "px";
-		this.currentToolIcon.style.top = (e.clientY - this.currentToolIcon.getBoundingClientRect().height) + "px"; // Additional padding for mouse offset
-	}
-
-	private disableButtonHover(): void {
-		this.currentTool.classList.add("no-hover");
-
-	}
-
-	private enableButtonHover(): void {
-		this.currentTool.classList.remove("no-hover");
+		// Do this last so that cleanup functions can still access these variables
+		this.currentTool = null;
 	}
 
 	private setCanvasActive(active: boolean = true): void {
 		this.container.setCanvasActive(active);
+	}
+
+	private moveTool(e: MouseEvent): void {
+		this.currentTool.moveTool(e);
 	}
 
 }

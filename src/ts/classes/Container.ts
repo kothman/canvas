@@ -1,7 +1,7 @@
-/* 
+/** 
  * @class Container
  * 
- * Takes a Canvas and Toolbar element as constructor arguments,
+ * @description Takes a Canvas and Toolbar element as constructor arguments,
  * allowing the canvas and toolbar classes to interface with each other
  */
 class Container {

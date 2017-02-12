@@ -1,12 +1,14 @@
 class Canvas {
-	canvas: any;
-	ctx: any;
+	canvas: HTMLCanvasElement;
+	ctx: CanvasRenderingContext2D;
 	container: Container;
+	drawables: Drawable[];
 
 	constructor(canvas: string, container: Container) {
-		this.canvas = document.querySelector(canvas);
+		this.canvas = <HTMLCanvasElement> document.querySelector(canvas);
 		this.ctx = this.canvas.getContext("2d");
 		this.container = container;
+		this.drawables = [];
 		this.init();
 	}
 
@@ -22,8 +24,10 @@ class Canvas {
 		this.canvas.height = dimensions.height;
 	}
 
-	public draw(d: Drawable): void {
-
+	private draw(): void {
+		for (let i = 0; i < this.drawables.length; i++) {
+			this.drawables[i].draw(this.ctx);
+		}
 	}
 
 	public setActive(active: boolean = true): void {
@@ -31,5 +35,9 @@ class Canvas {
 			this.canvas.classList.add("active-canvas");
 		else
 			this.canvas.classList.remove("active-canvas");
+	}
+
+	public addDrawable(element: Drawable): void {
+
 	}
 }
