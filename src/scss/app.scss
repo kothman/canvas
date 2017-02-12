@@ -65,9 +65,13 @@ canvas {
 	@include transition;
 	@include box-shadow;
 
-	&:hover, &:active {
+	&:hover {
 		background-color: darken($white, 25%);
 		@include transition;
+	}
+
+	&.no-hover:hover {
+		background-color: $white;
 	}
 
 	i.fa {
@@ -84,10 +88,15 @@ canvas {
   width: (10/12)*100% - $column-buffer;
 }
 
-.active {
+.active-icon {
 	position: fixed !important;
 	display: inline-block !important;
 	height: initial !important;
+	cursor: crosshair !important;
+}
+
+.active-canvas {
+	cursor: crosshair;
 }
 
 .is-2 {

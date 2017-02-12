@@ -1,9 +1,12 @@
 class Canvas {
 	canvas: any;
 	ctx: any;
-	constructor(canvas: string) {
+	container: Container;
+
+	constructor(canvas: string, container: Container) {
 		this.canvas = document.querySelector(canvas);
 		this.ctx = this.canvas.getContext("2d");
+		this.container = container;
 		this.init();
 	}
 
@@ -21,5 +24,12 @@ class Canvas {
 
 	public draw(d: Drawable): void {
 
+	}
+
+	public setActive(active: boolean = true): void {
+		if (active)
+			this.canvas.classList.add("active-canvas");
+		else
+			this.canvas.classList.remove("active-canvas");
 	}
 }
