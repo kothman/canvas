@@ -1,9 +1,14 @@
 class Toolbar {
 	toolbar: Element;
 	container: Container;
-	factory: Factory;
 	buttons: Array<Element>;
 	currentTool: Tool;
+
+	pencil: Pencil;
+	brush: Brush;
+	circle: Circle;
+	square: Square;
+
 
 	pickUpToolListener: EventListenerOrEventListenerObject;
 	putDownToolListener: EventListenerOrEventListenerObject;
@@ -12,7 +17,6 @@ class Toolbar {
 	constructor(toolbar: string, container: Container) {
 		this.toolbar = document.querySelector(toolbar);
 		this.container = container;
-		this.factory = new Factory();
 		this.init();
 	}
 
@@ -55,9 +59,11 @@ class Toolbar {
 
 	private pickUpTool(e: MouseEvent): void {
 		console.log("Picking up");
+		// Get the current tool from the MouseEvent e
 		let toolElement: HTMLElement = <HTMLElement> e.currentTarget;
 		// Set the current tool for use in other functions
-		this.currentTool = new (this.factory.class(toolElement.getAttribute("data-class")))(toolElement, this.container);
+		this.currentTool = new (window[toolElement.getAttribute("data-class")])(toolElement, this.container);
+
 		this.currentTool.float();
 		// Move the tool to initial mouse position
 		this.currentTool.moveTool(e);
